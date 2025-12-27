@@ -3,162 +3,317 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ürün Detayı - TechStore</title>
+    <title>TechStore - Ürün Detayı</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .product-detail {
-            padding: 40px 0;
+        .product-detail-container {
+            padding: 60px 0;
         }
         
-        .product-detail-container {
+        .product-detail {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 60px;
             margin-bottom: 60px;
         }
         
-        .product-image {
-            width: 100%;
-            border-radius: 10px;
+        .product-image-container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .product-info h1 {
+        .product-detail-image {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 12px;
+        }
+        
+        .product-info-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .product-category-badge {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            width: fit-content;
+        }
+        
+        .product-detail-name {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .product-detail-price {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            font-weight: bold;
             margin-bottom: 20px;
         }
         
-        .product-info .price {
-            font-size: 2rem;
-            color: #e74c3c;
-            margin: 20px 0;
+        .product-description {
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
         }
         
-        .product-info .description {
-            line-height: 1.8;
+        .product-actions {
+            display: flex;
+            gap: 15px;
             margin-bottom: 30px;
         }
         
-        .add-to-cart-btn {
-            background-color: #3498db;
+        .add-to-cart-detail-btn {
+            flex: 1;
+            padding: 18px 30px;
+            background: var(--primary-color);
             color: white;
             border: none;
-            padding: 15px 40px;
+            border-radius: 8px;
             font-size: 1.1rem;
-            border-radius: 5px;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
-        .add-to-cart-btn:hover {
-            background-color: #2980b9;
+        .add-to-cart-detail-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .product-features {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 12px;
+        }
+        
+        .product-features h3 {
+            margin-bottom: 15px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-item i {
+            color: var(--primary-color);
         }
         
         .related-products {
-            margin-top: 60px;
+            margin-top: 80px;
         }
         
-        .related-products h2 {
-            margin-bottom: 30px;
-        }
-        
-        @media (max-width: 768px) {
-            .product-detail-container {
+        @media (max-width: 968px) {
+            .product-detail {
                 grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .product-detail-name {
+                font-size: 2rem;
+            }
+            
+            .product-detail-price {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <div class="logo">TechStore</div>
-            <ul class="nav-links">
-                <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="shop.html">Mağaza</a></li>
-                <li><a href="cart.html">Sepet <span id="cart-count">0</span></a></li>
-                <li><a href="about.html">Hakkımızda</a></li>
-                <li><a href="login.html" id="nav-login">Giriş Yap</a></li>
-            </ul>
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>TechStore</span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="shop.html">Ürünler</a></li>
+                    <li><a href="cart.html">
+                        Sepet 
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a></li>
+                    <li><a href="about.html">Hakkımızda</a></li>
+                    <li id="authButton">
+                        <a href="login.html">Giriş Yap</a>
+                    </li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <!-- Product Detail -->
-    <section class="product-detail">
+    <section class="product-detail-container">
         <div class="container">
-            <div class="product-detail-container" id="product-detail">
-                <!-- Product details will be loaded by JS -->
+            <div class="product-detail" id="productDetailContent">
+                <!-- Product detail will be loaded here -->
             </div>
             
-            <!-- Related Products -->
             <div class="related-products">
-                <h2>Benzer Ürünler</h2>
-                <div class="product-grid" id="related-products">
-                    <!-- Related products will be loaded by JS -->
+                <h2 class="section-title">Benzer Ürünler</h2>
+                <div class="products-grid" id="relatedProducts">
+                    <!-- Related products will be loaded here -->
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 TechStore. Tüm hakları saklıdır.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TechStore</h3>
+                    <p>Teknoloji tutkunları için en iyi alışveriş deneyimi</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Hızlı Bağlantılar</h4>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="shop.html">Ürünler</a></li>
+                        <li><a href="about.html">Hakkımızda</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>İletişim</h4>
+                    <p><i class="fas fa-envelope"></i> info@techstore.com</p>
+                    <p><i class="fas fa-phone"></i> +90 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechStore. Tüm hakları saklıdır.</p>
+            </div>
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-app-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-auth-compat.min.js"></script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
     <script src="script.js"></script>
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            loadProductDetail();
-            updateCartCount();
-            checkLoginStatus();
-        });
-
-        function loadProductDetail() {
-            // Get product ID from URL
+        // Load product detail
+        document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const productId = parseInt(urlParams.get('id'));
             
-            const products = getProducts();
-            const product = products.find(p => p.id === productId);
-            
-            if (!product) {
-                document.getElementById('product-detail').innerHTML = 
-                    '<p>Ürün bulunamadı</p>';
+            if (!productId) {
+                window.location.href = 'shop.html';
                 return;
             }
             
-            // Display product details
-            document.getElementById('product-detail').innerHTML = `
-                <div>
-                    <img src="${product.image}" alt="${product.name}" class="product-image">
+            const product = getProductById(productId);
+            
+            if (!product) {
+                window.location.href = 'shop.html';
+                return;
+            }
+            
+            displayProductDetail(product);
+            displayRelatedProducts(product);
+        });
+        
+        function displayProductDetail(product) {
+            const container = document.getElementById('productDetailContent');
+            
+            container.innerHTML = `
+                <div class="product-image-container">
+                    <img src="${product.image}" alt="${product.name}" class="product-detail-image">
                 </div>
-                <div class="product-info">
-                    <h1>${product.name}</h1>
-                    <p class="price">${product.price.toLocaleString()} TL</p>
-                    <p class="description">${product.description}</p>
-                    <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
-                        Sepete Ekle
-                    </button>
+                
+                <div class="product-info-container">
+                    <span class="product-category-badge">${product.category}</span>
+                    <h1 class="product-detail-name">${product.name}</h1>
+                    <div class="product-detail-price">${formatPrice(product.price)}</div>
+                    <p class="product-description">${product.description}</p>
+                    
+                    <div class="product-actions">
+                        <button class="add-to-cart-detail-btn" onclick="addToCart(${product.id})">
+                            <i class="fas fa-shopping-cart"></i>
+                            Sepete Ekle
+                        </button>
+                    </div>
+                    
+                    <div class="product-features">
+                        <h3>Ürün Özellikleri</h3>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Orijinal Ürün Garantisi</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-shipping-fast"></i>
+                            <span>Hızlı ve Ücretsiz Kargo</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-undo"></i>
+                            <span>14 Gün İçinde İade Garantisi</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>2 Yıl Resmi Distribütör Garantisi</span>
+                        </div>
+                    </div>
                 </div>
             `;
+        }
+        
+        function displayRelatedProducts(currentProduct) {
+            const container = document.getElementById('relatedProducts');
             
-            // Load related products (same category)
-            const relatedProducts = products
-                .filter(p => p.category === product.category && p.id !== product.id)
-                .slice(0, 3);
+            // Get products from same category
+            const related = getProductsByCategory(currentProduct.category)
+                .filter(p => p.id !== currentProduct.id)
+                .slice(0, 4);
             
-            const relatedContainer = document.getElementById('related-products');
-            relatedContainer.innerHTML = relatedProducts.map(p => `
-                <div class="product-card">
-                    <img src="${p.image}" alt="${p.name}">
-                    <h3>${p.name}</h3>
-                    <p class="price">${p.price.toLocaleString()} TL</p>
-                    <button onclick="window.location.href='product-detail.html?id=${p.id}'">
-                        Detayları Gör
-                    </button>
-                </div>
-            `).join('');
+            if (related.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--gray);">Benzer ürün bulunamadı</p>';
+                return;
+            }
+            
+            container.innerHTML = related.map(product => renderProductCard(product)).join('');
+            
+            // Add click event to product cards
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('add-to-cart-btn')) {
+                        const productId = this.dataset.id;
+                        window.location.href = `product-detail.html?id=${productId}`;
+                    }
+                });
+            });
         }
     </script>
 </body>

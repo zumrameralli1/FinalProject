@@ -5,43 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechStore - Ana Sayfa</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="container">
-            <div class="logo">TechStore</div>
-            <ul class="nav-links">
-                <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="shop.html">Mağaza</a></li>
-                <li><a href="cart.html">Sepet <span id="cart-count">0</span></a></li>
-                <li><a href="about.html">Hakkımızda</a></li>
-                <li><a href="login.html" id="nav-login">Giriş Yap</a></li>
-            </ul>
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>TechStore</span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html" class="active">Ana Sayfa</a></li>
+                    <li><a href="shop.html">Ürünler</a></li>
+                    <li><a href="cart.html">
+                        Sepet 
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a></li>
+                    <li><a href="about.html">Hakkımızda</a></li>
+                    <li id="authButton">
+                        <a href="login.html">Giriş Yap</a>
+                    </li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <!-- Banner -->
-    <section class="banner">
-        <div class="banner-content">
-            <h1>En Yeni Teknoloji Ürünleri</h1>
-            <p>Kaliteli ve uygun fiyatlı teknoloji ürünleri</p>
-            <button class="cta-button" onclick="window.location.href='shop.html'">Alışverişe Başla</button>
+    <!-- Weather Widget (API Integration) -->
+    <div class="weather-widget" id="weatherWidget">
+        <div class="weather-content">
+            <i class="fas fa-cloud-sun"></i>
+            <span id="weatherText">Hava durumu yükleniyor...</span>
         </div>
-    </section>
-
-    <!-- Welcome Message (after login) -->
-    <div id="welcome-message" class="welcome-message" style="display: none;">
-        <p>Hoş geldin, <span id="user-name"></span>! 🎉</p>
     </div>
 
-    <!-- Weather Widget (API Integration) -->
-    <section class="weather-section">
+    <!-- Hero Banner -->
+    <section class="hero">
         <div class="container">
-            <h2>Bugünün Hava Durumu</h2>
-            <div id="weather-widget">
-                <p>Yükleniyor...</p>
+            <div class="hero-content">
+                <h1 class="hero-title" id="heroTitle">Teknoloji Dünyasına Hoş Geldiniz</h1>
+                <p class="hero-subtitle">En yeni ve en iyi teknoloji ürünlerini keşfedin</p>
+                <a href="shop.html" class="btn btn-primary">Alışverişe Başla</a>
             </div>
         </div>
     </section>
@@ -49,67 +59,82 @@
     <!-- Featured Products -->
     <section class="featured-products">
         <div class="container">
-            <h2>Öne Çıkan Ürünler</h2>
-            <div class="product-grid" id="featured-products">
-                <!-- Products will be loaded by JS -->
+            <h2 class="section-title">Öne Çıkan Ürünler</h2>
+            <div class="products-grid" id="featuredProducts">
+                <!-- Products will be loaded dynamically -->
+                <div class="product-skeleton"></div>
+                <div class="product-skeleton"></div>
+                <div class="product-skeleton"></div>
+                <div class="product-skeleton"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-shipping-fast"></i>
+                    <h3>Hızlı Kargo</h3>
+                    <p>Siparişleriniz 24 saat içinde kargoda</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Güvenli Alışveriş</h3>
+                    <p>%100 güvenli ödeme sistemi</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-headset"></i>
+                    <h3>7/24 Destek</h3>
+                    <p>Her zaman yanınızdayız</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-undo"></i>
+                    <h3>Kolay İade</h3>
+                    <p>14 gün içinde ücretsiz iade</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 TechStore. Tüm hakları saklıdır.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TechStore</h3>
+                    <p>Teknoloji tutkunları için en iyi alışveriş deneyimi</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Hızlı Bağlantılar</h4>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="shop.html">Ürünler</a></li>
+                        <li><a href="about.html">Hakkımızda</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>İletişim</h4>
+                    <p><i class="fas fa-envelope"></i> info@techstore.com</p>
+                    <p><i class="fas fa-phone"></i> +90 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechStore. Tüm hakları saklıdır.</p>
+            </div>
         </div>
     </footer>
 
+    <!-- Firebase SDKs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-app-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-auth-compat.min.js"></script>
+    
+    <!-- Main JavaScript -->
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script src="products.js"></script>
+    <script src="weather.js"></script>
     <script src="script.js"></script>
-    <script>
-        // Load featured products on homepage
-        window.addEventListener('DOMContentLoaded', () => {
-            loadFeaturedProducts();
-            checkLoginStatus();
-            loadWeather();
-            updateCartCount();
-        });
-
-        function loadFeaturedProducts() {
-            const products = getProducts().slice(0, 4);
-            const container = document.getElementById('featured-products');
-            
-            container.innerHTML = products.map(product => `
-                <div class="product-card">
-                    <img src="${product.image}" alt="${product.name}">
-                    <h3>${product.name}</h3>
-                    <p class="price">${product.price} TL</p>
-                    <button onclick="addToCart(${product.id})">Sepete Ekle</button>
-                </div>
-            `).join('');
-        }
-
-        function loadWeather() {
-            // Using OpenWeatherMap API
-            const apiKey = ''; // Students should add their own API key
-            const city = 'Izmir';
-            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=tr`;
-            
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    const widget = document.getElementById('weather-widget');
-                    widget.innerHTML = `
-                        <div class="weather-info">
-                            <h3>${data.name}</h3>
-                            <p class="temp">${Math.round(data.main.temp)}°C</p>
-                            <p>${data.weather[0].description}</p>
-                        </div>
-                    `;
-                })
-                .catch(error => {
-                    document.getElementById('weather-widget').innerHTML = 
-                        '<p>Hava durumu yüklenemedi</p>';
-                });
-        }
-    </script>
 </body>
 </html>

@@ -1,267 +1,218 @@
-// Product Data
-function getProducts() {
-    return [
-        {
-            id: 1,
-            name: 'iPhone 15 Pro',
-            price: 45000,
-            category: 'telefon',
-            image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400',
-            description: 'Son teknoloji iPhone 15 Pro. A17 Pro çip, ProMotion ekran ve titanium tasarım.'
-        },
-        {
-            id: 2,
-            name: 'Samsung Galaxy S24',
-            price: 38000,
-            category: 'telefon',
-            image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400',
-            description: 'Galaxy AI ile güçlendirilmiş Samsung Galaxy S24. 200MP kamera ve parlak ekran.'
-        },
-        {
-            id: 3,
-            name: 'MacBook Air M3',
-            price: 52000,
-            category: 'laptop',
-            image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400',
-            description: 'M3 çip ile güçlendirilmiş MacBook Air. İnce, hafif ve güçlü.'
-        },
-        {
-            id: 4,
-            name: 'iPad Pro 12.9',
-            price: 35000,
-            category: 'tablet',
-            image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400',
-            description: 'M2 çipli iPad Pro. Liquid Retina XDR ekran ve Apple Pencil desteği.'
-        },
-        {
-            id: 5,
-            name: 'AirPods Pro 2',
-            price: 8500,
-            category: 'aksesuar',
-            image: 'https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=400',
-            description: 'Aktif gürültü önleme ve şeffaf mod. USB-C şarj kutusu.'
-        },
-        {
-            id: 6,
-            name: 'Apple Watch Series 9',
-            price: 15000,
-            category: 'aksesuar',
-            image: 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=400',
-            description: 'Her zaman açık Retina ekran. Sağlık ve fitness özellikleri.'
-        },
-        {
-            id: 7,
-            name: 'Sony WH-1000XM5',
-            price: 12000,
-            category: 'aksesuar',
-            image: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400',
-            description: 'Endüstri lideri gürültü önleme teknolojisi. 30 saat pil ömrü.'
-        },
-        {
-            id: 8,
-            name: 'Dell XPS 15',
-            price: 48000,
-            category: 'laptop',
-            image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400',
-            description: 'Intel Core i7, 16GB RAM, 512GB SSD. 15.6 inç InfinityEdge ekran.'
-        }
-    ];
-}
+// Main JavaScript File
 
-// Cart Functions
-function getCart() {
-    const cart = localStorage.getItem('cart');
-    return cart ? JSON.parse(cart) : [];
-}
-
-function saveCart(cart) {
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
-}
-
-function addToCart(productId) {
-    const products = getProducts();
-    const product = products.find(p => p.id === productId);
+// Mobile menu toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.querySelector('.nav-menu');
     
-    if (!product) return;
-    
-    const cart = getCart();
-    const existingItem = cart.find(item => item.id === productId);
-    
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.push({
-            ...product,
-            quantity: 1
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
         });
     }
     
-    saveCart(cart);
-    alert('Ürün sepete eklendi!');
-}
-
-function removeFromCart(productId) {
-    const cart = getCart();
-    const updatedCart = cart.filter(item => item.id !== productId);
-    saveCart(updatedCart);
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', function() {
+            if (navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    });
     
-    // Reload cart page if we're on it
-    if (window.location.pathname.includes('cart.html')) {
-        loadCart();
-    }
-}
-
-function updateQuantity(productId, change) {
-    const cart = getCart();
-    const item = cart.find(item => item.id === productId);
-    
-    if (item) {
-        item.quantity += change;
-        if (item.quantity <= 0) {
-            removeFromCart(productId);
-        } else {
-            saveCart(cart);
-            if (window.location.pathname.includes('cart.html')) {
-                loadCart();
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.nav-wrapper')) {
+            navMenu.classList.remove('active');
+            if (hamburger) {
+                hamburger.classList.remove('active');
             }
         }
-    }
-}
-
-function updateCartCount() {
-    const cart = getCart();
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const countElement = document.getElementById('cart-count');
-    if (countElement) {
-        countElement.textContent = totalItems;
-    }
-}
-
-// User Authentication
-function checkLoginStatus() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    const loginLink = document.getElementById('nav-login');
-    const welcomeMsg = document.getElementById('welcome-message');
-    const userName = document.getElementById('user-name');
-    
-    if (user) {
-        if (loginLink) {
-            loginLink.textContent = 'Çıkış Yap';
-            loginLink.href = '#';
-            loginLink.onclick = (e) => {
-                e.preventDefault();
-                logout();
-            };
-        }
-        
-        if (welcomeMsg && userName) {
-            userName.textContent = user.name || user.email;
-            welcomeMsg.style.display = 'block';
-        }
-    }
-}
-
-function logout() {
-    localStorage.removeItem('user');
-    window.location.href = 'index.html';
-}
-
-// Form Validation
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
-
-function validatePassword(password) {
-    return password.length >= 6;
-}
-
-// Normal Login
-function handleLogin(event) {
-    event.preventDefault();
-    
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    
-    if (!validateEmail(email)) {
-        alert('Lütfen geçerli bir e-posta adresi girin.');
-        return false;
-    }
-    
-    if (!validatePassword(password)) {
-        alert('Şifre en az 6 karakter olmalıdır.');
-        return false;
-    }
-    
-    // Check if user exists
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = users.find(u => u.email === email && u.password === password);
-    
-    if (user) {
-        localStorage.setItem('user', JSON.stringify(user));
-        window.location.href = 'index.html';
-    } else {
-        alert('E-posta veya şifre hatalı!');
-    }
-    
-    return false;
-}
-
-// Registration
-function handleRegister(event) {
-    event.preventDefault();
-    
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
-    
-    if (!name || name.length < 2) {
-        alert('Lütfen geçerli bir isim girin.');
-        return false;
-    }
-    
-    if (!validateEmail(email)) {
-        alert('Lütfen geçerli bir e-posta adresi girin.');
-        return false;
-    }
-    
-    if (!validatePassword(password)) {
-        alert('Şifre en az 6 karakter olmalıdır.');
-        return false;
-    }
-    
-    if (password !== confirmPassword) {
-        alert('Şifreler eşleşmiyor!');
-        return false;
-    }
-    
-    // Save user
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    
-    if (users.find(u => u.email === email)) {
-        alert('Bu e-posta adresi zaten kullanılıyor!');
-        return false;
-    }
-    
-    users.push({ name, email, password });
-    localStorage.setItem('users', JSON.stringify(users));
-    
-    alert('Kayıt başarılı! Giriş yapabilirsiniz.');
-    window.location.href = 'login.html';
-    
-    return false;
-}
-
-// Menu Toggle for Mobile
-function toggleMenu() {
-    const navLinks = document.querySelector('.nav-links');
-    navLinks.classList.toggle('active');
-}
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    updateCartCount();
-    checkLoginStatus();
+    });
 });
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Add animation on scroll
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+// Observe elements for animation
+document.addEventListener('DOMContentLoaded', function() {
+    const animateElements = document.querySelectorAll('.product-card, .feature-card');
+    animateElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s ease';
+        observer.observe(el);
+    });
+});
+
+// Lazy loading images
+if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src || img.src;
+                img.classList.remove('lazy');
+                imageObserver.unobserve(img);
+            }
+        });
+    });
+
+    document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+        imageObserver.observe(img);
+    });
+}
+
+// Back to top button
+const backToTopButton = document.createElement('button');
+backToTopButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
+backToTopButton.className = 'back-to-top';
+backToTopButton.style.display = 'none';
+document.body.appendChild(backToTopButton);
+
+window.addEventListener('scroll', function() {
+    if (window.pageYOffset > 300) {
+        backToTopButton.style.display = 'flex';
+    } else {
+        backToTopButton.style.display = 'none';
+    }
+});
+
+backToTopButton.addEventListener('click', function() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+// Add styles for back to top button
+const style = document.createElement('style');
+style.textContent = `
+    .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s;
+        z-index: 999;
+    }
+    
+    .back-to-top:hover {
+        background: var(--secondary-color);
+        transform: translateY(-5px);
+    }
+    
+    .notification {
+        position: fixed;
+        top: -100px;
+        right: 20px;
+        background: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 9999;
+        transition: top 0.3s;
+    }
+    
+    .notification.show {
+        top: 90px;
+    }
+    
+    .notification-success {
+        border-left: 4px solid var(--success-color);
+    }
+    
+    .notification-error {
+        border-left: 4px solid var(--danger-color);
+    }
+    
+    .notification-info {
+        border-left: 4px solid var(--primary-color);
+    }
+    
+    .notification i {
+        font-size: 1.2rem;
+    }
+    
+    .notification-success i {
+        color: var(--success-color);
+    }
+    
+    .notification-error i {
+        color: var(--danger-color);
+    }
+    
+    .notification-info i {
+        color: var(--primary-color);
+    }
+    
+    .user-dropdown {
+        position: fixed;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        padding: 10px 0;
+        z-index: 9999;
+        min-width: 150px;
+    }
+    
+    .dropdown-item {
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .dropdown-item:hover {
+        background: var(--light);
+    }
+    
+    .dropdown-item i {
+        color: var(--primary-color);
+    }
+`;
+document.head.appendChild(style);

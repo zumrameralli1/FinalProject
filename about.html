@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Hakkımızda</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .about-hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .about-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .about-content {
+            padding: 80px 0;
+        }
+        
+        .about-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 80px;
+            align-items: center;
+        }
+        
+        .about-section:nth-child(even) {
+            direction: rtl;
+        }
+        
+        .about-section:nth-child(even) > * {
+            direction: ltr;
+        }
+        
+        .about-text h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .about-text p {
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .about-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 40px;
+        }
+        
+        .value-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .value-card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .value-card h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-section {
+            background: var(--light);
+            padding: 60px 0;
+            margin-top: 60px;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .contact-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .contact-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-card h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-card a {
+            color: var(--gray);
+            text-decoration: none;
+        }
+        
+        @media (max-width: 968px) {
+            .about-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .about-section {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .about-section:nth-child(even) {
+                direction: ltr;
+            }
+            
+            .about-image {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>TechStore</span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="shop.html">Ürünler</a></li>
+                    <li><a href="cart.html">
+                        Sepet 
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a></li>
+                    <li><a href="about.html" class="active">Hakkımızda</a></li>
+                    <li id="authButton">
+                        <a href="login.html">Giriş Yap</a>
+                    </li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="about-hero">
+        <div class="container">
+            <h1>Hakkımızda</h1>
+            <p>Teknoloji tutkunlarının buluşma noktası</p>
+        </div>
+    </section>
+
+    <section class="about-content">
+        <div class="container">
+            <div class="about-section">
+                <div class="about-text">
+                    <h2>Hikayemiz</h2>
+                    <p>TechStore, 2020 yılında teknoloji tutkusuyla yola çıkan bir ekip tarafından kuruldu. Amacımız, en yeni ve en kaliteli teknoloji ürünlerini müşterilerimizle buluşturmak ve onlara en iyi alışveriş deneyimini sunmaktır.</p>
+                    <p>Bugün binlerce mutlu müşteriyle, Türkiye'nin en güvenilir teknoloji mağazalarından biri haline geldik.</p>
+                </div>
+                <div>
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800" alt="Ekibimiz" class="about-image">
+                </div>
+            </div>
+            
+            <div class="about-section">
+                <div class="about-text">
+                    <h2>Misyonumuz</h2>
+                    <p>Müşterilerimize en yeni teknoloji ürünlerini en uygun fiyatlarla sunmak ve onlara kusursuz bir alışveriş deneyimi yaşatmak misyonumuzun temelidir.</p>
+                    <p>Kalite, güven ve müşteri memnuniyeti her zaman önceliğimizdir.</p>
+                </div>
+                <div>
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800" alt="Misyonumuz" class="about-image">
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h2 class="section-title">Değerlerimiz</h2>
+            </div>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <i class="fas fa-star"></i>
+                    <h3>Kalite</h3>
+                    <p>Sadece orijinal ve kaliteli ürünler sunuyoruz</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Güven</h3>
+                    <p>Müşterilerimizin güveni bizim için her şeydir</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-rocket"></i>
+                    <h3>İnovasyon</h3>
+                    <p>En yeni teknolojileri takip ediyoruz</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Müşteri Odaklılık</h3>
+                    <p>Müşteri memnuniyeti önceliğimiz</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="container">
+            <h2 class="section-title">İletişim</h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>E-posta</h3>
+                    <a href="mailto:info@techstore.com">info@techstore.com</a>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Telefon</h3>
+                    <a href="tel:+905551234567">+90 (555) 123-4567</a>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Adres</h3>
+                    <p>İstanbul, Türkiye</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TechStore</h3>
+                    <p>Teknoloji tutkunları için en iyi alışveriş deneyimi</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Hızlı Bağlantılar</h4>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="shop.html">Ürünler</a></li>
+                        <li><a href="about.html">Hakkımızda</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>İletişim</h4>
+                    <p><i class="fas fa-envelope"></i> info@techstore.com</p>
+                    <p><i class="fas fa-phone"></i> +90 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechStore. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-app-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-auth-compat.min.js"></script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

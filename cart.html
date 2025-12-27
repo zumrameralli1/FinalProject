@@ -3,117 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sepetim - TechStore</title>
+    <title>TechStore - Sepetim</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .cart-container {
+            padding: 60px 0;
+            min-height: 60vh;
+        }
+        
+        .cart-header {
+            margin-bottom: 30px;
+        }
+        
+        .cart-items {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .cart-item {
+            display: grid;
+            grid-template-columns: 100px 1fr auto auto auto;
+            gap: 20px;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .cart-item-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .cart-item-details {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-price {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .quantity-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 5px;
+        }
+        
+        .cart-item-total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            min-width: 120px;
+            text-align: right;
+        }
+        
+        .remove-btn {
+            background: none;
+            border: none;
+            color: var(--danger-color);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            transition: transform 0.3s;
+        }
+        
+        .remove-btn:hover {
+            transform: scale(1.2);
+        }
+        
+        .cart-summary {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        
+        .summary-total {
+            border-top: 2px solid var(--border);
+            padding-top: 15px;
+            margin-top: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .checkout-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .clear-cart-btn {
+            width: 100%;
+            padding: 12px;
+            background: white;
+            color: var(--danger-color);
+            border: 2px solid var(--danger-color);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .clear-cart-btn:hover {
+            background: var(--danger-color);
+            color: white;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .empty-cart i {
+            font-size: 5rem;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+        
+        .empty-cart h2 {
+            margin-bottom: 10px;
+        }
+        
+        .empty-cart p {
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+                gap: 10px;
+            }
+            
+            .cart-item-image {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .cart-item-quantity {
+                grid-column: 1 / -1;
+            }
+            
+            .cart-item-total {
+                grid-column: 1 / -1;
+                text-align: left;
+            }
+            
+            .remove-btn {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+            
+            .cart-item {
+                position: relative;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <div class="logo">TechStore</div>
-            <ul class="nav-links">
-                <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="shop.html">Mağaza</a></li>
-                <li><a href="cart.html">Sepet <span id="cart-count">0</span></a></li>
-                <li><a href="about.html">Hakkımızda</a></li>
-                <li><a href="login.html" id="nav-login">Giriş Yap</a></li>
-            </ul>
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>TechStore</span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="shop.html">Ürünler</a></li>
+                    <li><a href="cart.html" class="active">
+                        Sepet 
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a></li>
+                    <li><a href="about.html">Hakkımızda</a></li>
+                    <li id="authButton">
+                        <a href="login.html">Giriş Yap</a>
+                    </li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <!-- Cart Content -->
     <section class="cart-container">
         <div class="container">
-            <h1>Alışveriş Sepetim</h1>
+            <div class="cart-header">
+                <h1 class="section-title">Sepetim</h1>
+            </div>
             
-            <div id="cart-content">
-                <!-- Cart items will be loaded by JS -->
+            <div id="emptyCart" class="empty-cart" style="display: none;">
+                <i class="fas fa-shopping-cart"></i>
+                <h2>Sepetiniz Boş</h2>
+                <p>Henüz sepetinize ürün eklemediniz</p>
+                <a href="shop.html" class="btn btn-primary">Alışverişe Başla</a>
+            </div>
+            
+            <div id="cartContent" style="display: grid; grid-template-columns: 1fr 400px; gap: 30px;">
+                <div>
+                    <div class="cart-items" id="cartItems">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="cart-summary">
+                        <h3 style="margin-bottom: 20px;">Sipariş Özeti</h3>
+                        
+                        <div class="summary-row">
+                            <span>Ara Toplam:</span>
+                            <span id="cartTotal">0 TL</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Kargo:</span>
+                            <span style="color: var(--success-color);">Ücretsiz</span>
+                        </div>
+                        
+                        <div class="summary-total">
+                            <span>Toplam:</span>
+                            <span id="finalTotal">0 TL</span>
+                        </div>
+                        
+                        <button class="checkout-btn" onclick="checkout()">
+                            <i class="fas fa-lock"></i> Ödemeye Geç
+                        </button>
+                        
+                        <button class="clear-cart-btn" onclick="clearCart()">
+                            <i class="fas fa-trash"></i> Sepeti Temizle
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 TechStore. Tüm hakları saklıdır.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TechStore</h3>
+                    <p>Teknoloji tutkunları için en iyi alışveriş deneyimi</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Hızlı Bağlantılar</h4>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="shop.html">Ürünler</a></li>
+                        <li><a href="about.html">Hakkımızda</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>İletişim</h4>
+                    <p><i class="fas fa-envelope"></i> info@techstore.com</p>
+                    <p><i class="fas fa-phone"></i> +90 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechStore. Tüm hakları saklıdır.</p>
+            </div>
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-app-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-auth-compat.min.js"></script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
     <script src="script.js"></script>
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            loadCart();
-            updateCartCount();
-            checkLoginStatus();
-        });
-
-        function loadCart() {
-            const cart = getCart();
-            const container = document.getElementById('cart-content');
-            
-            if (cart.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 60px 0;">
-                        <h2>Sepetiniz boş</h2>
-                        <p>Alışverişe başlamak için mağazayı ziyaret edin.</p>
-                        <button class="cta-button" onclick="window.location.href='shop.html'">
-                            Mağazaya Git
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-            
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
-            container.innerHTML = `
-                <div class="cart-items">
-                    ${cart.map(item => `
-                        <div class="cart-item">
-                            <img src="${item.image}" alt="${item.name}">
-                            <div class="cart-item-info">
-                                <h3>${item.name}</h3>
-                                <p class="price">${item.price.toLocaleString()} TL</p>
-                            </div>
-                            <div class="quantity-control">
-                                <button onclick="updateQuantity(${item.id}, -1)">-</button>
-                                <span>${item.quantity}</span>
-                                <button onclick="updateQuantity(${item.id}, 1)">+</button>
-                            </div>
-                            <p class="price">${(item.price * item.quantity).toLocaleString()} TL</p>
-                            <button class="remove-btn" onclick="removeFromCart(${item.id})">
-                                Sil
-                            </button>
-                        </div>
-                    `).join('')}
-                </div>
-                
-                <div class="cart-summary">
-                    <h2>Sipariş Özeti</h2>
-                    <div class="total-price">
-                        Toplam: ${total.toLocaleString()} TL
-                    </div>
-                    <button class="cta-button" onclick="checkout()">
-                        Ödemeye Geç
-                    </button>
-                </div>
-            `;
-        }
-
-        function checkout() {
-            const user = JSON.parse(localStorage.getItem('user'));
-            
-            if (!user) {
-                alert('Ödeme yapmak için lütfen giriş yapın.');
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            alert('Ödeme işlemi başarılı! Siparişiniz alındı.');
-            localStorage.removeItem('cart');
-            window.location.href = 'index.html';
-        }
-    </script>
 </body>
 </html>
