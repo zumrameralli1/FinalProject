@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Ana Sayfa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">TechStore</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="shop.html">Mağaza</a></li>
+                <li><a href="cart.html">Sepet <span id="cart-count">0</span></a></li>
+                <li><a href="about.html">Hakkımızda</a></li>
+                <li><a href="login.html" id="nav-login">Giriş Yap</a></li>
+            </ul>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        </div>
+    </nav>
+
+    <!-- Banner -->
+    <section class="banner">
+        <div class="banner-content">
+            <h1>En Yeni Teknoloji Ürünleri</h1>
+            <p>Kaliteli ve uygun fiyatlı teknoloji ürünleri</p>
+            <button class="cta-button" onclick="window.location.href='shop.html'">Alışverişe Başla</button>
+        </div>
+    </section>
+
+    <!-- Welcome Message (after login) -->
+    <div id="welcome-message" class="welcome-message" style="display: none;">
+        <p>Hoş geldin, <span id="user-name"></span>! 🎉</p>
+    </div>
+
+    <!-- Weather Widget (API Integration) -->
+    <section class="weather-section">
+        <div class="container">
+            <h2>Bugünün Hava Durumu</h2>
+            <div id="weather-widget">
+                <p>Yükleniyor...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products">
+        <div class="container">
+            <h2>Öne Çıkan Ürünler</h2>
+            <div class="product-grid" id="featured-products">
+                <!-- Products will be loaded by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 TechStore. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Load featured products on homepage
+        window.addEventListener('DOMContentLoaded', () => {
+            loadFeaturedProducts();
+            checkLoginStatus();
+            loadWeather();
+            updateCartCount();
+        });
+
+        function loadFeaturedProducts() {
+            const products = getProducts().slice(0, 4);
+            const container = document.getElementById('featured-products');
+            
+            container.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p class="price">${product.price} TL</p>
+                    <button onclick="addToCart(${product.id})">Sepete Ekle</button>
+                </div>
+            `).join('');
+        }
+
+        function loadWeather() {
+            // Using OpenWeatherMap API
+            const apiKey = ''; // Students should add their own API key
+            const city = 'Izmir';
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=tr`;
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const widget = document.getElementById('weather-widget');
+                    widget.innerHTML = `
+                        <div class="weather-info">
+                            <h3>${data.name}</h3>
+                            <p class="temp">${Math.round(data.main.temp)}°C</p>
+                            <p>${data.weather[0].description}</p>
+                        </div>
+                    `;
+                })
+                .catch(error => {
+                    document.getElementById('weather-widget').innerHTML = 
+                        '<p>Hava durumu yüklenemedi</p>';
+                });
+        }
+    </script>
+</body>
+</html>
