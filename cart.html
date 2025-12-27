@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sepetim - TechStore</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">TechStore</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="shop.html">Mağaza</a></li>
+                <li><a href="cart.html">Sepet <span id="cart-count">0</span></a></li>
+                <li><a href="about.html">Hakkımızda</a></li>
+                <li><a href="login.html" id="nav-login">Giriş Yap</a></li>
+            </ul>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        </div>
+    </nav>
+
+    <!-- Cart Content -->
+    <section class="cart-container">
+        <div class="container">
+            <h1>Alışveriş Sepetim</h1>
+            
+            <div id="cart-content">
+                <!-- Cart items will be loaded by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 TechStore. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            loadCart();
+            updateCartCount();
+            checkLoginStatus();
+        });
+
+        function loadCart() {
+            const cart = getCart();
+            const container = document.getElementById('cart-content');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 60px 0;">
+                        <h2>Sepetiniz boş</h2>
+                        <p>Alışverişe başlamak için mağazayı ziyaret edin.</p>
+                        <button class="cta-button" onclick="window.location.href='shop.html'">
+                            Mağazaya Git
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            container.innerHTML = `
+                <div class="cart-items">
+                    ${cart.map(item => `
+                        <div class="cart-item">
+                            <img src="${item.image}" alt="${item.name}">
+                            <div class="cart-item-info">
+                                <h3>${item.name}</h3>
+                                <p class="price">${item.price.toLocaleString()} TL</p>
+                            </div>
+                            <div class="quantity-control">
+                                <button onclick="updateQuantity(${item.id}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                            <p class="price">${(item.price * item.quantity).toLocaleString()} TL</p>
+                            <button class="remove-btn" onclick="removeFromCart(${item.id})">
+                                Sil
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="cart-summary">
+                    <h2>Sipariş Özeti</h2>
+                    <div class="total-price">
+                        Toplam: ${total.toLocaleString()} TL
+                    </div>
+                    <button class="cta-button" onclick="checkout()">
+                        Ödemeye Geç
+                    </button>
+                </div>
+            `;
+        }
+
+        function checkout() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            
+            if (!user) {
+                alert('Ödeme yapmak için lütfen giriş yapın.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            alert('Ödeme işlemi başarılı! Siparişiniz alındı.');
+            localStorage.removeItem('cart');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
